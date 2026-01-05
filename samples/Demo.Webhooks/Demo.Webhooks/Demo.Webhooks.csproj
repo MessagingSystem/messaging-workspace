@@ -2,6 +2,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\hosting-aspnetcore\src\Messaging.Hosting.AspNetCore\Messaging.Hosting.AspNetCore.csproj" />
+    <ProjectReference Include="..\..\..\src\abstractions\src\Messaging.Abstractions\Messaging.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\src\providers\telegram\src\Messaging.Telegram\Messaging.Telegram.csproj" />
+    <ProjectReference Include="..\..\..\src\providers\max\src\Messaging.Max\Messaging.Max.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
