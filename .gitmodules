@@ -1,18 +1,18 @@
 [submodule "src/abstractions"]
 	path = src/abstractions
-	url = git@github.com:DadonovAleksandr/messaging-abstractions.git
+	url = git@github.com:MessagingSystem/messaging-abstractions.git
 [submodule "src/hosting-aspnetcore"]
 	path = src/hosting-aspnetcore
-	url = git@github.com:DadonovAleksandr/messaging-hosting-aspnetcore.git
+	url = git@github.com:MessagingSystem/messaging-hosting-aspnetcore.git
 [submodule "src/providers/telegram"]
 	path = src/providers/telegram
-	url = git@github.com:DadonovAleksandr/messaging-telegram.git
+	url = git@github.com:MessagingSystem/messaging-telegram.git
 [submodule "src/providers/max"]
 	path = src/providers/max
-	url = git@github.com:DadonovAleksandr/messaging-max.git
+	url = git@github.com:MessagingSystem/messaging-max.git
 [submodule "packages/telegram-miniapp-sdk"]
 	path = packages/telegram-miniapp-sdk
-	url = git@github.com:DadonovAleksandr/telegram-miniapp-sdk.git
+	url = git@github.com:MessagingSystem/telegram-miniapp-sdk.git
 [submodule "packages/telegram-miniapp-auth"]
 	path = packages/telegram-miniapp-auth
-	url = git@github.com:DadonovAleksandr/telegram-miniapp-auth.git
+	url = git@github.com:MessagingSystem/telegram-miniapp-auth.git
