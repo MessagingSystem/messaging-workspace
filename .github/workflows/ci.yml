@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - name: Build
+        run: dotnet build Messaging.Workspace.sln
+      - name: Test
+        run: dotnet test Messaging.Workspace.sln
+      - uses: actions/setup-node@v4
+        if: ${{ hashFiles('packages/telegram-miniapp-sdk/package.json') != '' }}
+        with:
+          node-version: 'lts/*'
+      - name: Install SDK deps
+        if: ${{ hashFiles('packages/telegram-miniapp-sdk/package.json') != '' }}
+        run: npm ci
+        working-directory: packages/telegram-miniapp-sdk
+      - name: Build SDK
+        if: ${{ hashFiles('packages/telegram-miniapp-sdk/package.json') != '' }}
+        run: npm run build
+        working-directory: packages/telegram-miniapp-sdk
