@@ -62,6 +62,53 @@ npm ci
 npm run build
 ```
 
+## Примеры использования
+
+### Отправка текстового сообщения
+
+```csharp
+await Message.To(new ChatId("123"))
+    .Text("Hello, World!")
+    .SendAsync(chatClient);
+```
+
+### Отправка текста с клавиатурой
+
+```csharp
+var keyboard = new InlineKeyboard(new[]
+{
+    new InlineKeyboardRow(new InlineKeyboardButton[]
+    {
+        new CallbackButton("OK", "ok"),
+        new UrlButton("Docs", new Uri("https://example.com/docs"))
+    })
+});
+
+await Message.To(new ChatId("123"))
+    .Text("Choose an option:")
+    .Keyboard(keyboard)
+    .SendAsync(chatClient);
+```
+
+### Отправка файла с подписью и клавиатурой
+
+```csharp
+var file = new FileId("file-123");
+var keyboard = new InlineKeyboard(new[]
+{
+    new InlineKeyboardRow(new InlineKeyboardButton[]
+    {
+        new CallbackButton("Download", "download")
+    })
+});
+
+await Message.To(new ChatId("123"))
+    .File(file, FileKind.Document)
+    .Caption("Your document is ready")
+    .Keyboard(keyboard)
+    .SendAsync(chatFilesClient);
+```
+
 ## Как вносить изменения
 
 Правильный поток:

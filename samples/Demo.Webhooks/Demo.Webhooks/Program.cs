@@ -54,14 +54,10 @@ app.MapGet("/demo/send-keyboard/{provider}", async (
             })
         });
 
-        var request = new SendTextRequest(
-            new ChatId(chatId),
-            $"Inline keyboard demo ({provider})")
-        {
-            Keyboard = keyboard
-        };
-
-        await chatClient.SendTextAsync(request, cancellationToken);
+        await Message.To(new ChatId(chatId))
+            .Text($"Inline keyboard demo ({provider})")
+            .Keyboard(keyboard)
+            .SendAsync(chatClient, cancellationToken);
 
         return Results.Ok();
     }
@@ -108,30 +104,28 @@ app.MapPost("/demo/send-file/{provider}", async (
             _ => throw new ArgumentException($"Unsupported mode: {mode}")
         };
 
-        // Создание клавиатуры (опционально)
-        InlineKeyboard? keyboard = null;
+        // Построение и отправка сообщения
+        var builder = Message.To(new ChatId(dto.ChatId))
+            .File(inputFile, fileKind);
+
+        if (!string.IsNullOrWhiteSpace(dto.Caption))
+        {
+            builder = builder.Caption(dto.Caption);
+        }
+
         if (!string.IsNullOrWhiteSpace(dto.KeyboardButtonText))
         {
-            keyboard = new InlineKeyboard(new[]
+            var keyboard = new InlineKeyboard(new[]
             {
                 new InlineKeyboardRow(new InlineKeyboardButton[]
                 {
                     new CallbackButton(dto.KeyboardButtonText, dto.KeyboardButtonData ?? "callback_data")
                 })
             });
+            builder = builder.Keyboard(keyboard);
         }
 
-        // Создание запроса на отправку файла
-        var request = new SendFileRequest(
-            new ChatId(dto.ChatId),
-            inputFile,
-            fileKind,
-            dto.Caption)
-        {
-            Keyboard = keyboard
-        };
-
-        var result = await client.SendFileAsync(request, cancellationToken);
+        var result = await builder.SendAsync(client, cancellationToken);
 
         return Results.Ok(new { messageId = result.MessageId.Value });
     }
