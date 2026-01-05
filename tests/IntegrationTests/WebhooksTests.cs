@@ -2,6 +2,8 @@ using System.Collections.Concurrent;
 using System.Net;
 using System.Text;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace IntegrationTests;
@@ -69,10 +71,13 @@ public class WebhooksTests
         await using var factory = new WebApplicationFactory<Program>()
             .WithWebHostBuilder(builder =>
             {
-                builder.ConfigureLogging(logging =>
+                builder.ConfigureServices((context, services) =>
                 {
-                    logging.ClearProviders();
-                    logging.AddProvider(logProvider);
+                    services.AddLogging(logging =>
+                    {
+                        logging.ClearProviders();
+                        logging.AddProvider(logProvider);
+                    });
                 });
             });
         using var client = factory.CreateClient();
